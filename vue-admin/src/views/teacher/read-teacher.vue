@@ -51,7 +51,7 @@ export default {
       subjects: [{
         label: "VUE.js",
       },{
-        label: "创新与实践",
+        label: "英语",
       },{
         label: "马克思主义思想",
       }, {
@@ -63,7 +63,6 @@ export default {
       }]
     })
     const change = (data) => {
-      console.log(data.row._id)
       router.push({ path: "/updata-teacher", query: { id: data.row._id } });
     }
     const remove = (id, index) => {

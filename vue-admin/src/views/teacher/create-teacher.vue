@@ -73,7 +73,7 @@ export default {
       subjects: [{
         label: "VUE.js",
       },{
-        label: "创新与实践",
+        label: "英语",
       },{
         label: "马克思主义思想",
       }, {

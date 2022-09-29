@@ -37,7 +37,7 @@
       </div>
     </template>
     <div class="text item">
-      <a :href="excel" download="excel" target="_blank">点击下载</a>
+      <a :href="excel" download="excel" @click="deleteFileClick" target="_blank">点击下载</a>
     </div>
   </el-card>
   <echarts :option="option" v-if="isShow" @notShow="hide(value)"></echarts>
@@ -176,7 +176,7 @@ import { api } from "@/api/api";
 import { createAchievement, updateScore,  } from "@/api/achievement"
 // import readUser from "@/modules/common/read-user";
 // import updataScore from "@/api/common/updata-score";
-import { teacherPrint } from "@/api/teacher";
+import { teacherPrint, deleteFile } from "@/api/teacher";
 import echarts from "@/components/echarts";
 import { v4 } from "uuid";
 
@@ -195,8 +195,8 @@ api({
 }).then((res) => {
   label.value = res.res[0].subject + "成绩";
   switch (res.res[0].subject) {
-    case "创新与实践":
-      subject.value = "innovate";
+    case "英语":
+      subject.value = "english";
       break;
     case "马克思主义思想":
       subject.value = "marx";
@@ -355,11 +355,13 @@ function setChengji() {
 // 打印表格
 let excel = ref("");
 let excelShow = ref(false);
+let excelName = ref("")
 function log() {
   let data = {
-    name: v4(),
+     name: `${label.value}${Math.random().toString().substring(3, 7)}`,
     data: [],
   };
+  excelName.value = data.name
   excel.value = store.state.excel + data.name + ".xlsx";
   data.data.push(["姓名", "学号", "成绩"]);
   tableData.value.forEach((item, index) => {
@@ -368,6 +370,17 @@ function log() {
   teacherPrint({ data: data }).then(res => {
     excelShow.value = true;
   });
+}
+
+//下载完之后删除文件
+function deleteFileClick () {
+  excelShow.value = false;
+  setTimeout(() => {
+    deleteFile({
+      fileName: excelName.value
+    }).then((res) => {
+    })
+  }, 10 * 1000)
 }
 // 生成表单
 let option = ref({

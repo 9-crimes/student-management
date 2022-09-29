@@ -17,7 +17,7 @@
         </div>
       </template>
       <div class="text item">
-        <a :href="store.state.excel + url + '.xlsx'">点击下载成绩</a>
+        <a :href="store.state.excel + url + '.xlsx'" @click="deleteFileClick">点击下载成绩</a>
       </div>
     </el-card>
     <div class="alert" v-if="isShow"></div>
@@ -27,7 +27,7 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { api } from "@/api/api";
-import { teacherPrint } from "@/api/teacher";
+import { teacherPrint, deleteFile } from "@/api/teacher";
 
 let store = useStore();
 let url = ref("");
@@ -47,7 +47,7 @@ api({
   tableData.value = res.res;
   let objData = res.res[0] || {}
   let value = Object.keys(objData);
-  let tmpData = ['vue', 'node', 'marx', 'innovate', 'mysql', 'math']
+  let tmpData = ['vue', 'node', 'marx', 'english', 'mysql', 'math']
   value.forEach((item, index) => {
     if (tmpData.includes(item)) {
       if (+objData[item]) {
@@ -71,7 +71,7 @@ api({
     "VUE": 'vue',
     "Node.js": 'node',
     "马克思主义哲学": 'marx',
-    "创新与实践": 'innovate',
+    "英语": 'english',
     "MySQL": 'mysql',
     "高等数学": 'math',
   }
@@ -83,10 +83,10 @@ api({
       value: objData[val] || '',
     });
   });
-  data.value.push({
-    key: '平局绩点',
-    value: (gpa.value / num.value).toFixed(2)
-  })
+  // data.value.push({
+  //   key: '平局绩点',
+  //   value: (gpa.value / num.value).toFixed(2)
+  // })
   data.value.push({
     key: '平均分',
     value: (all.value / num.value).toFixed(2)
@@ -105,7 +105,7 @@ function log() {
     "VUE": 'vue',
     "Node.js": 'node',
     "马克思主义哲学": 'marx',
-    "创新与实践": 'innovate',
+    "英语": 'english',
     "MySQL": 'mysql',
     "高等数学": 'math',
   }
@@ -118,7 +118,6 @@ function log() {
   });
   newData[newData.length] = all.value;
   data.push(newData);
-  console.log(data)
   let print = {
     name: localStorage.student + "同学的成绩单",
     data: data,
@@ -127,6 +126,17 @@ function log() {
     isShow.value = true;
     url.value = print.name;
   });
+}
+
+//下载完之后删除文件
+function deleteFileClick () {
+  isShow.value = false;
+  setTimeout(() => {
+    deleteFile({
+      fileName: url.value
+    }).then((res) => {
+    })
+  }, 10 * 1000)
 }
 
 </script>

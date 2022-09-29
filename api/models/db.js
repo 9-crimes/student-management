@@ -31,7 +31,7 @@ const achievementSchema = new mongoose.Schema({
     vue: String,
     node: String,
     marx: String,
-    innovate: String,
+    english: String,
     mysql: String,
     math: String,
     time: Date,

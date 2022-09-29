@@ -118,7 +118,6 @@ export default {
                     id: user,
                     password: password,
                 }).then((res) => {
-                    console.log(res)
                     if (res.res) {
                         localStorage.id = res.id; //身份
                         localStorage.user = res.user; //账号

@@ -5,7 +5,6 @@ const router = express.Router();
 const db = require('../models/db.js')
 
 router.post('/create-student', async (req, res) => {
-    console.log(req.body)
     const { username, name, sex, tel, stuClass} = req.body
     new db.User({
         username: username,
@@ -31,7 +30,6 @@ router.post('/create-student', async (req, res) => {
             time: new Date()
         }
         new db.Student(data).save((err, result) => {
-            console.log('result', result, username)
             res.json({
                 res: typeof result == "object",
                 msg: err ? '创建失败' : null,

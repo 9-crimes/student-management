@@ -45,8 +45,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { api } from "@/api/api";
 import axios from "axios";
-// import uploadExcel from "@/modules/upload-excel";
-import { teacherPrint, uploadExcel } from "@/api/teacher";
+import { teacherPrint, uploadExcel, deleteFile } from "@/api/teacher";
 import  { updateScore,  } from "@/api/achievement"
 import { useStore } from "vuex";
 import echarts from "@/components/echarts";
@@ -63,8 +62,8 @@ api({
 }).then((res) => {
   showScore.value = res.res[0].subject + "成绩";
   switch (res.res[0].subject) {
-    case "创新与实践":
-      subject.value = "innovate";
+    case "英语":
+      subject.value = "english";
       break;
     case "马克思主义思想":
       subject.value = "marx";
@@ -97,7 +96,6 @@ function isEchart() {
   // 遍历数组设置个数
   tableData.value.forEach((item, index) => {
     let i;
-    console.log(item);
     if (+item.score < 60 && item.score != "") {
       i = 0;
     } else if (+item.score >= 60 && +item.score < 81) {
@@ -131,13 +129,10 @@ function load() {
 let score;
 function save(s) {
   score = +s;
-  console.log(score);
 }
 function change(id, s, index) {
-  console.log(score);
   if (+s != +score && +s >= 0 && +s <= 100) {
     updateScore({ username: id, score: s, subject: subject.value }).then(res => {
-      console.log(res)
     })
   } else {
     tableData.value[index].score = score + "";
@@ -145,14 +140,15 @@ function change(id, s, index) {
 }
 
 let excel = ref("");
+let execlName = ref("")
 function log() {
   let data = {
     name: `${showScore.value}${Math.random().toString().substring(3, 7)}`,
     data: [],
   };
+  execlName.value = data.name
   excel.value = store.state.excel + data.name + ".xlsx";
   data.data.push(["姓名", "学号", "成绩"]);
-  console.log(tableData.value)
   tableData.value.forEach((item, index) => {
     data.data.push([
       item.name,
@@ -162,6 +158,12 @@ function log() {
   });
   teacherPrint({ data: data }).then((res) => {
     window.open(excel.value);
+    setTimeout(() => {
+      deleteFile({
+        fileName: data.name
+      }).then((res) => {
+      })
+    }, 10 * 1000)
   });
 }
 let option = ref({

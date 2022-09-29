@@ -7,7 +7,6 @@ const fs = require('fs')
 const db = require('../models/db.js')
 
 router.post('/create-teacher', async (req, res) => {
-    console.log(req.body)
     const { username, name, sex, tel, subject} = req.body
     new db.User({
         username: username,
@@ -33,7 +32,6 @@ router.post('/create-teacher', async (req, res) => {
             time: new Date()
         }
         new db.Teacher(data).save((err, result) => {
-            console.log('result', result, username)
             res.json({
                 res: typeof result == "object",
                 msg: err ? '创建失败' : null,
@@ -97,6 +95,15 @@ router.post('/upload-excel', (req, res) => {
         setTimeout(() => {
             fs.unlinkSync(`./excel/${time}.xlsx`)
         }, 10000);
+    })
+})
+
+router.post('/delete-file', (req, res)=>{
+    const fileName = req.body.fileName
+    fs.unlink(`./excel/${fileName}.xlsx`, (err) => {
+        res.json({
+            res: err ? false : true
+        })
     })
 })
 

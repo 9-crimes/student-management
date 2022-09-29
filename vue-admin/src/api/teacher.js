@@ -43,3 +43,17 @@ export const uploadExcel = async (file) => {
     })
     return data
 }
+
+export const deleteFile = async (file) => {
+    let data;
+    await axios({
+        method: "post",
+        url: '/delete-file',
+        data: {
+            ...file
+        }
+    }).then(res => {
+        data = res.data;
+    })
+    return data
+}

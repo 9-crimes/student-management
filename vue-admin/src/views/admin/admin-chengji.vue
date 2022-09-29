@@ -6,7 +6,7 @@
     <el-table-column prop="vue" label="VUE.js"> </el-table-column>
     <el-table-column prop="node" label="Node.js"> </el-table-column>
     <el-table-column prop="marx" label="马克思"> </el-table-column>
-    <el-table-column prop="innovate" label="创新"> </el-table-column>
+    <el-table-column prop="english" label="英语"> </el-table-column>
     <el-table-column prop="mysql" label="MySQL"> </el-table-column>
     <el-table-column prop="math" label="高数"> </el-table-column>
     <!-- <el-table-column label="删除">

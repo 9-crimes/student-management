@@ -22,7 +22,6 @@ export default {
         const router = useRouter();
         let name = localStorage.user;
         if (name == undefined) {
-            console.log(router)
             router.replace("/login");
         }
         document.body.style.paddingLeft = "200px";

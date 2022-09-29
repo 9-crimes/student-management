@@ -5,10 +5,8 @@ let db = require('../models/db')
 
 //注册用户名和密码
 router.post('/signup', function(req, res) {
-    console.log(req.body)
     let biaomin = req.body.type.slice(0,1).toUpperCase() + req.body.type.slice(1).toLowerCase();
     new db.User(req.body).save((err, result) => {
-        console.log(err, result)
         if (err) {
             res.json({
                 res: err ? false : true,
