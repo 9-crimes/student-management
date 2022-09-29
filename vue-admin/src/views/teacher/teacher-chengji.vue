@@ -300,57 +300,41 @@ function setChengji() {
     (showDataOption.value.cumulative_count / 100) * showDataOption.value.cumulative +
     (showDataOption.value.end_count / 100) * showDataOption.value.end
   ).toFixed(0); //成绩计算
-  if (dialogEnterVisible.value) { //新增
-    let student = (studentList.value || []).find(item => id === item.username)
-    createAchievement({
-      username: id,
-      name: student.name || '',
-      score: score,
-      subject: subject.value
-    }).then(createRes => {
-      if (createRes.res) {
-        api({
-          col: 'achievement',
-        }).then(res => {
-          ElMessage({
-            message: `录入ID: ${id} 同学的${label.value}成绩为${score}`,
-            type: "success",
-            duration: 1000,
-          });
-          tableData.value = res.res;
-          allData = res.res;
-          // 将授课科目的成绩单独处理为score
-          tableData.value.forEach((el, i) => {
-            tableData.value[i].score = tableData.value[i][subject.value];
-          });
-        })
-      } else {
-        ElMessage({
-          message: createRes.err && createRes.err.code == 11000 ? "不能重复录入" : "录入失败",
-          type: "error",
-        });
-      }
-      dialogEnterVisible.value = false;
-    })
-  } else {
-    updateScore({ username: id, score: score, subject: subject.value }).then(res => {
-      if (res.res) {
+  let student = (studentList.value || []).find(item => id === item.username)
+  //查找是否已存在数据，如不存在则是新增
+  let isAdd = (tableData.value || []).find(item=> id === item.stucode)
+  updateScore({ 
+    username: id,
+    score: score,
+    name: student.name || '',
+    subject: subject.value,
+    isAdd: isAdd ? false : true
+  }).then(res => {
+    if (res.res) {
+      api({
+        col: 'achievement',
+      }).then(res => {
         ElMessage({
           message: `成功修改ID: ${id} 同学的${label.value}成绩为${score}`,
           type: "success",
           duration: 1000,
         });
-        tableData.value.find(item => item.stucode == id).score = score;
-      } else {
-        ElMessage({
-          message: "修改失败",
-          type: "error",
+        tableData.value = res.res;
+        allData = res.res;
+        // 将授课科目的成绩单独处理为score
+        tableData.value.forEach((el, i) => {
+          tableData.value[i].score = tableData.value[i][subject.value];
         });
-      }
-      dialogVisible.value = false;
-    })
-  }
-
+      })
+    } else {
+      ElMessage({
+        message: "修改失败",
+        type: "error",
+      });
+    }
+    dialogEnterVisible.value = false;
+    dialogVisible.value = false;
+  })
 }
 // 打印表格
 let excel = ref("");

@@ -22,12 +22,17 @@ router.post('/create-achievement', async (req, res) => {
 })
 
 router.post('/updata-score', (req, res) => {
-    const { username, subject, score } = req.body
-    let data = {}
+    const { username, subject, score, name, isAdd } = req.body
+    let data = {
+        name: name,
+    }
     data[subject] = score
+    if (isAdd) {
+        data.time = new Date()
+    } 
     db.Achievement.updateOne({
         stucode: username,
-    }, data, function(err, result) {
+    }, data, { upsert:true }, function(err, result) {
         res.json({
             res: result
         })
