@@ -308,7 +308,7 @@ function setChengji() {
     score: score,
     name: student.name || '',
     subject: subject.value,
-    isAdd: isAdd ? false : true
+    isAdd: !isAdd && dialogEnterVisible.value
   }).then(res => {
     if (res.res) {
       api({
