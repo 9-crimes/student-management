@@ -24,7 +24,7 @@
             prefix-icon="el-icon-key"
             style="margin-top: 20px"
         ></el-input>
-        <el-select v-model="id" placeholder="请选择">
+        <el-select v-model="id" :disabled="!isLogin" placeholder="请选择">
             <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -35,8 +35,8 @@
         <el-button v-if="isLogin" type="primary" @click="loginClick">登录</el-button>
         <el-button v-else type="primary" @click="signupClick">注册</el-button>
         <div class="bottom">
-            <span v-if="isLogin" @click="isLogin=false">立即注册</span>
-            <span v-else @click="isLogin=true">已有账号？立即登录</span>
+            <span v-if="isLogin" @click="isLogin=false; id='admin'">立即注册</span>
+            <span v-else @click="isLogin=true;id='student'">已有账号？立即登录</span>
         </div>
     </div>
 </template>

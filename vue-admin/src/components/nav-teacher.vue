@@ -3,7 +3,7 @@
     <el-col>
       <el-menu
         :router="true"
-        default-active="/create-teacher"
+        :default-active="onRouters"
         class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"
@@ -47,8 +47,16 @@
   </el-row>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
 let updataTeacherUrl = "/updata-teacher?name=" + localStorage.teacher;
+let route = useRoute();
+const onRouters = computed(() => {
+  if (route.path === '/updata-teacher') {
+    return "/updata-teacher?name=" + localStorage.teacher;
+  }
+    return route.path;
+});
 </script>
 <style scoped lang='scss'>
 .el-row {

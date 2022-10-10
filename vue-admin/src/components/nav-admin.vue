@@ -3,7 +3,7 @@
     <el-col>
       <el-menu
         :router="true"
-        default-active="/create-teacher"
+        :default-active="onRouters"
         class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"
@@ -69,9 +69,13 @@
   </el-row>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 let router = useRouter();
+let route = useRoute();
+const onRouters = computed(() => {
+    return route.path;
+});
 </script>
 <style scoped lang='scss'>
 .el-row {
