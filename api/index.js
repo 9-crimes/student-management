@@ -24,5 +24,5 @@ app.use('/', require('./route/student')); //学生接口
 app.use('/', require('./route/user')); //user
 app.use('/', require('./route/achievement')); //成绩接口
 
-const port = 5000;
+const port = 10006;
 app.listen(port, () => console.log(`监听端口:${port}`));

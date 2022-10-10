@@ -4,8 +4,9 @@
 ## 项目启动
 
 推荐使用 yarn 作为包管理  
-使用 **npm i yarn -g** 来安装 yarn  
-1.cd api  
+使用 **npm i yarn -g** 来安装 yarn 
+需要安装nodemon  可以使用 **npm i nodemon -g或者yarn add nodemon -g** 来安装 nodemon 
+1.cd api 
 2.yarn  
 3.yarn dev  
 4.cd vue-admin  

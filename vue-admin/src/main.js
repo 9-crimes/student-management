@@ -11,7 +11,7 @@ import axios from 'axios';
 import 'dayjs/locale/zh-cn'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 
-axios.defaults.baseURL = 'http://127.0.0.1:5000';
+axios.defaults.baseURL = 'http://127.0.0.1:10006';
 
 createApp(App)
     .use(store)
